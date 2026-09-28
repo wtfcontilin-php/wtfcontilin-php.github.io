@@ -1,0 +1,342 @@
+x<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diccionario de Bases de Datos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #004481;
+            --secondary: #F7A800;
+            --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            --text-dark: #1a252f;
+            --text-light: #596a7b;
+            --white: #ffffff;
+            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background: var(--bg-gradient); color: var(--text-dark); min-height: 100vh; overflow-x: hidden; }
+        .hidden { display: none !important; }
+        .screen { animation: fadeIn 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Pantalla 1 */
+        #screen1 { position: relative; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; overflow: hidden; }
+        .bg-shape { position: absolute; border-radius: 50%; filter: blur(100px); z-index: 0; animation: float 10s infinite alternate ease-in-out; }
+        .shape1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: rgba(0, 68, 129, 0.3); }
+        .shape2 { bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: rgba(247, 168, 0, 0.3); animation-delay: -5s; }
+        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(30px, 30px); } }
+
+        .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; max-width: 900px; }
+        .main-title { font-size: 3.5rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: -1px; margin: 0 0 40px 0; text-shadow: 0 10px 20px rgba(0,68,129,0.15); line-height: 1.1; }
+        .logos { display: flex; gap: 40px; margin-bottom: 30px; background: rgba(255, 255, 255, 0.4); padding: 20px 40px; border-radius: 30px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .logos img { width: 140px; height: 140px; object-fit: contain; transition: transform 0.4s ease; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1)); }
+        .logos img:hover { transform: scale(1.1) rotate(-3deg); }
+
+        .authors-section { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 25px; padding: 40px 50px; box-shadow: var(--card-shadow); width: 100%; max-width: 650px; }
+        .authors-section h2 { font-size: 1.1rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 4px; margin-top: 0; margin-bottom: 25px; font-weight: 600; }
+        .authors-grid { display: flex; flex-direction: column; gap: 12px; }
+        .author-badge { background: rgba(255, 255, 255, 0.9); padding: 12px 20px; border-radius: 50px; font-size: 1.15rem; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.02); transition: all 0.3s ease; }
+        .author-badge:hover { transform: translateX(10px); background: var(--white); color: var(--primary); box-shadow: 0 6px 15px rgba(0,68,129,0.1); }
+
+        .btn-start { margin-top: 50px; padding: 18px 50px; font-size: 1.3rem; font-weight: 700; font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, var(--primary), #0062b8); color: var(--white); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 15px 30px rgba(0, 68, 129, 0.3); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .btn-start:hover { background: linear-gradient(135deg, var(--secondary), #f9b92f); transform: translateY(-5px) scale(1.02); box-shadow: 0 20px 40px rgba(247, 168, 0, 0.4); color: var(--text-dark); }
+
+        /* Pantalla 2 */
+        #screen2 { padding: 40px 20px 80px 20px; max-width: 1300px; margin: 0 auto; }
+        .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; flex-wrap: wrap; gap: 20px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); padding: 25px 40px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); position: sticky; top: 20px; z-index: 100; }
+        .nav-header h1 { margin: 0; font-size: 2.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-controls { display: flex; gap: 15px; flex-wrap: wrap; flex-grow: 1; justify-content: flex-end; }
+        .nav-controls input, .nav-controls select { padding: 15px 25px; font-size: 1rem; font-family: 'Poppins', sans-serif; border: 2px solid transparent; border-radius: 50px; outline: none; transition: all 0.3s ease; background-color: rgba(240, 244, 248, 0.9); font-weight: 600; }
+        .nav-controls input:focus, .nav-controls select:focus { background-color: var(--white); border-color: var(--primary); box-shadow: 0 5px 15px rgba(0, 68, 129, 0.15); transform: translateY(-2px); }
+        .nav-controls input { min-width: 300px; flex-grow: 1; max-width: 400px; }
+
+        .cube-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 35px; }
+        .cube { background: linear-gradient(145deg, #ffffff, #f8faff); border-radius: 25px; padding: 30px; text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.8); cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; justify-content: center; min-height: 180px; position: relative; overflow: hidden; }
+        .cube:hover { transform: translateY(-12px) scale(1.02); box-shadow: var(--hover-shadow); border-color: rgba(247, 168, 0, 0.3); }
+        .cube-tag { align-self: flex-start; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; padding: 6px 14px; border-radius: 20px; margin-bottom: 15px; transition: all 0.3s ease; }
+        .tag-fundamentos { background-color: rgba(0, 68, 129, 0.1); color: var(--primary); }
+        .tag-modelos { background-color: rgba(247, 168, 0, 0.15); color: #d97706; }
+        .cube:hover .tag-fundamentos { background-color: var(--primary); color: white; }
+        .cube:hover .tag-modelos { background-color: var(--secondary); color: white; }
+        .cube h3 { margin: 0; font-size: 1.3rem; font-weight: 700; color: var(--text-dark); line-height: 1.4; }
+
+        /* Pantalla 3 */
+        #screen3 { padding: 50px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .detail-card { background: var(--white); padding: 60px; border-radius: 25px; max-width: 900px; width: 100%; box-shadow: var(--hover-shadow); }
+        .btn-back { display: inline-flex; align-items: center; padding: 12px 25px; background-color: #f1f4f8; color: var(--text-light); border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-bottom: 30px; transition: all 0.2s ease; }
+        .btn-back:hover { background-color: #e2e8f0; color: var(--text-dark); transform: translateX(-5px); }
+        .concept-title { font-size: 2.2rem; color: var(--primary); margin-top: 0; margin-bottom: 25px; font-weight: 800; line-height: 1.2; }
+        .concept-text { font-size: 1.1rem; line-height: 1.7; margin-bottom: 40px; color: #333; }
+        .concept-link { display: inline-block; padding: 15px 30px; background: linear-gradient(90deg, var(--primary), #0062b8); color: var(--white); text-decoration: none; border-radius: 50px; font-weight: 600; box-shadow: 0 10px 20px rgba(0, 68, 129, 0.2); transition: all 0.3s ease; }
+        .concept-link:hover { background: linear-gradient(90deg, var(--secondary), #f9b92f); box-shadow: 0 10px 20px rgba(247, 168, 0, 0.3); transform: translateY(-2px); color: var(--text-dark); }
+        @media (max-width: 768px) { .nav-header { padding: 20px; justify-content: center; text-align: center; } .nav-controls input { min-width: 100%; } .nav-controls select { width: 100%; } }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA 1: PRINCIPAL -->
+    <div id="screen1" class="screen">
+        <div class="bg-shape shape1"></div>
+        <div class="bg-shape shape2"></div>
+        <div class="hero-content">
+            <h1 class="main-title">Diccionario de Bases de Datos</h1>
+            <div class="logos">
+                <img src="https://fca.uacam.mx/view/view_image?imagen=4528/UACAM_Evoluciona_azul.png&tipo=paginas" alt="Universidad Autónoma de Campeche">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGCLZ5yvHchPlmxVKcm3VxuTEvElImM9GopJ5ZFxd3vocBYueI4s2zcHdw&s=10" alt="Facultad de Ingeniería">
+            </div>
+            <div class="authors-section">
+                <h2>elaborado por</h2>
+                <div class="authors-grid">
+                    <div class="author-badge">Kevin Emmanuel Martinez Chan</div>
+                    <div class="author-badge">Fernando José May González</div>
+                    <div class="author-badge">Luis Mario Ruelas Que</div>
+                    <div class="author-badge">Carlos Felipe Caballero Ávila</div>
+                    <div class="author-badge">Yadier Alejandro Hernández Moreno</div>
+                </div>
+            </div>
+            <button class="btn-start" onclick="showScreen('screen2')">Entrar al Diccionario →</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: DICCIONARIO -->
+    <div id="screen2" class="screen hidden">
+        <div class="nav-header">
+            <h1>Diccionario</h1>
+            <div class="nav-controls">
+                <input type="text" id="searchBar" placeholder="🔍 Buscar concepto..." oninput="filterCubes()">
+                <select id="filterDropdown" onchange="filterCubes()">
+                    <option value="todos">Todos los temas</option>
+                    <option value="fundamentos">Fundamentos de BD</option>
+                    <option value="modelos">Modelos de Datos y ER</option>
+                </select>
+            </div>
+        </div>
+        <div class="cube-grid" id="cubeGrid"></div>
+    </div>
+
+    <!-- PANTALLA 3: DETALLE -->
+    <div id="screen3" class="screen hidden">
+        <div class="detail-card">
+            <button class="btn-back" onclick="showScreen('screen2')">← Volver al Diccionario</button>
+            <h2 class="concept-title" id="detailTitle">Título</h2>
+            <!-- El texto se rellenará dinámicamente conservando los saltos de línea -->
+            <div class="concept-text" id="detailText"></div>
+            <a href="#" target="_blank" class="concept-link" id="detailLink">Ver Enlace del Documento</a>
+        </div>
+    </div>
+
+    <script>
+        // ESTA ES LA DATA ÍNTEGRA Y EXACTA DE TU PDF CON CADA LETRA Y SALTO DE LÍNEA.
+        const data = [
+            {
+                id: 1,
+                title: "1.1. Definición de bases de datos",
+                category: "fundamentos",
+                text: `1.1. Definición de bases de datos: Una base de datos o banco de datos es una<br>herramienta que almacena información perteneciente a un mismo contexto,<br>organizada y sistematizada lógicamente para su posterior recuperación, análisis o<br>transmisión. Una biblioteca, un listado completo de clientes o el historial de las<br>páginas visitadas en un navegador web son algunos ejemplos de bases de datos.`,
+                link: "https://concepto.de/base-de-datos/"
+            },
+            {
+                id: 2,
+                title: "1.2. Importancia de las bases de datos",
+                category: "fundamentos",
+                text: `1.2. Importancia de las bases de datos: Hoy en día todas las empresas cuentan con<br>bases de datos que utilizan como una de sus herramientas principales para tener<br>contacto con los clientes. Las bases de datos se utilizan para almacenar y clasificar<br>la información específica de cada cliente, nombre y apellido, gustos, preferencias,<br>perfiles en redes sociales, correo, número telefónico, ubicación, y una larga lista de<br>datos, siempre lista para su utilización en el desarrollo de diferentes campañas.`,
+                link: "https://www.gureakdatapost.com/es/blog/empresas-bases-de-datos-bbdd/"
+            },
+            {
+                id: 3,
+                title: "1.3 Clasificación de las bases de datos",
+                category: "fundamentos",
+                text: `1.3 Clasificación de las bases de datos:<br>Estáticas: Son bases de datos diseñadas especialmente para la lectura de sus<br>datos. Su implementación en la mayoría de los casos es para almacenar y registrar<br>datos históricos y desarrollar estudios que permitan entender su comportamiento a<br>través del tiempo.<br>Dinámicas: En contraste a las Bases de datos estáticas, los datos de estas bases<br>son modificables al pasar el tiempo, permitiendo funciones constantes de<br>actualización, edición y eliminación de los datos.`,
+                link: "https://pandorafms.com/blog/es/tipos-de-bases-de-datos-y-las-mejores-bases-de-dat-os/"
+            },
+            {
+                id: 4,
+                title: "1.4. Propiedades ACID",
+                category: "fundamentos",
+                text: `1.4. Propiedades ACID:<br>Atomicidad:<br>Una transacción debe ejecutarse exactamente una vez y debe ser atómica, ya sea<br>todo el trabajo o ninguno de ellos. Las operaciones dentro de una transacción suelen<br>compartir una intención común y son interdependientes.<br>Coherencia: Una transacción debe conservar la coherencia de los datos y<br>transformar un estado coherente de los datos en otro estado coherente de los datos.<br>Gran parte de la responsabilidad de mantener la coherencia se aplica al<br>desarrollador de aplicaciones.<br>Aislamiento: Una transacción debe ser una unidad de aislamiento, lo que significa<br>que las transacciones simultáneas deben comportarse como si cada una fuera la<br>única transacción que se ejecuta en el sistema. Dado que un alto grado de<br>aislamiento puede limitar el número de transacciones simultáneas, algunas<br>aplicaciones reducen el nivel de aislamiento a cambio de mejorar el rendimiento.<br>Durabilidad: Una transacción debe ser recuperable y, por tanto, debe tener<br>durabilidad. Si se confirma una transacción, el sistema garantiza que sus<br>actualizaciones pueden persistir incluso si el equipo se bloquea inmediatamente<br>después de la confirmación.`,
+                link: "https://learn.microsoft.com/es-es/windows/win32/cossdk/acid-properties"
+            },
+            {
+                id: 5,
+                title: "1.5.1: Diseño conceptual",
+                category: "fundamentos",
+                text: `1.5 Diseño de las bases de datos<br>1.5.1: Diseño conceptual: Proceso de alto nivel que identifica las entidades (objetos<br>principales del negocio), sus atributos y las relaciones entre ellas,<br>independientemente de la tecnología o motor de base de datos que se vaya a usar.<br>Su representación más común es el Modelo Entidad-Relación (DER / ERD).`,
+                link: "https://erstudio.com/blog/conceptual-data-modeling/"
+            },
+            {
+                id: 6,
+                title: "1.5.2 Diseño lógico",
+                category: "fundamentos",
+                text: `1.5.2 Diseño lógico: Traducción del modelo conceptual a la estructura de un modelo<br>de datos específico (generalmente el modelo relacional). En esta etapa se definen<br>las tablas, claves primarias, claves foráneas, restricciones de integridad y se aplica<br>el proceso de normalización.`,
+                link: "https://dbschema.com/blog/design/logical-design-for-databases/"
+            },
+            {
+                id: 7,
+                title: "1.5.3 Diseño físico",
+                category: "fundamentos",
+                text: `1.5.3 Diseño físico: Adaptación del modelo lógico a las características específicas<br>del gestor de base de datos (como PostgreSQL, MySQL, Oracle) y del hardware.<br>Incluye la definición de tipos de datos específicos, índices para optimizar la<br>velocidad de búsqueda, particionamiento de datos y estrategias de almacenamiento.`,
+                link: "https://dbschema.com/blog/design/logical-design-for-databases/"
+            },
+            {
+                id: 8,
+                title: "1.6 Arquitectura de los 3 niveles de base de datos",
+                category: "fundamentos",
+                text: `1.6 Arquitectura de los 3 niveles de base de datos:<br>La arquitectura de 3 niveles divide los datos que son físicamente almacenados y cómo los<br>usuarios interactúan con ellos.<br>El nivel externo se enfoca en cómo los usuarios finales visualizan los datos, describe la<br>parte de la base de datos que se interesa a mostrar y maneja múltiples vistas de<br>información, los usuarios pueden variar según sus necesidades y permisos.<br>El nivel conceptual se sitúa en el corazón de la arquitectura, se caracteriza por su<br>integración, la consistencia y la independencia de datos. Este nivel ofrece una visión<br>completa de la estructura de la base de datos en su conjunto, sin importar si los datos están<br>internamente organizados o si son presentados a los usuarios<br>El nivel interno es el nivel más bajo, este nivel detalla el cómo y el dónde se almacenan los<br>datos, la independencia de los datos y los métodos de acceso. En este nivel los datos se<br>manejan de manera eficiente, optimizando recursos y garantizando rapidez en las<br>operaciones.<br>Domina la Arquitectura de 3 Niveles en Bases de Datos (ns porque me da el link asi)<br>Jesús. (2023, November 27). Domina la Arquitectura de 3 Niveles en Bases de<br>Datos. Tutoriales Dongee.`,
+                link: "https://www.dongee.com/tutoriales/arquitectura-de-3-niveles-bases-de-datos/"
+            },
+            {
+                id: 9,
+                title: "1.7 Sistemas gestores de Bases de datos",
+                category: "fundamentos",
+                text: `1.7 Sistemas gestores de Bases de datos y estructura general de un sistema de base de datos<br>Un sistema gestor de bases de datos es un conjunto de programas que permiten la<br>creación, manejo y administración de la información incluida en una base de datos. El<br>sistema reúne el conjunto de programas empleados para administrar y gestionar la<br>información presente en una base de datos. Estos sirven de interfaz entre la base de datos,<br>las aplicaciones y el usuario, permitiendo recuperar la información de forma sencilla, rápida<br>y eficiente. Permiten la definición y almacenamiento de la información, acceso a los datos y<br>modificarlos, garantizando la seguridad e integridad de los mismos.<br>-Estructura general<br>Se encuentra dividido en módulos de los cuales cada uno controla una parte de la<br>responsabilidad total del sistema. Los componentes funcionales de un sistema de base de<br>datos y el sistema operativo.<br>Gestor de archivos: gestiona la asignación de espacio en la memoria del disco y de las<br>estructuras de datos usadas para representar la información.<br>Manejador de base dato: Interfaz entre los datos y los programas de aplicación<br>Procesador de consultas: Traduce las proposiciones en lenguaje de consulta a instrucciones<br>de bajo nivel<br>Compilador de DDL. Convierte las proposiciones DDL en un conjunto de tablas que<br>contienen metadatos.<br>Archivos de datos: Se almacenan físicamente los datos de una organización<br>Diccionario de datos: Contiene la información referente a la estructura de la base de datos<br>Índices: Permiten un rápido acceso a registros que contienen valores específicos<br>1.5 ESTRUCTURA GENERAL DE UN SISTEMA DE BASE DE DATOS | Tombasededatos's Blog<br>Gestores de base de datos: qué son y qué tipos existen`,
+                link: "Gestores de base de datos: qué son y qué tipos existen"
+            },
+            {
+                id: 10,
+                title: "1.8 Sistemas gestores actuales",
+                category: "fundamentos",
+                text: `1.8 Sistemas gestores actuales<br>En la actualidad existen multitud de sistemas de gestión de base de datos y pueden ser<br>clasificados según la forma en que administran los datos en: relacionales (SQL) y No<br>relacionales (NoSQL)`,
+                link: "https://www.inesem.es/revistadigital/informatica-y-tics/los-gestores-de-bases-de-datos-mas-usados"
+            },
+            {
+                id: 11,
+                title: "1.8.1 Sistemas gestores relacionales",
+                category: "fundamentos",
+                text: `1.8.1 Sistemas gestores relacionales<br>Este modelo se basa fundamentalmente en establecer relaciones o vínculos entre<br>los datos imaginando una tabla aparte por cada relación existente con sus propios<br>registros y atributos.<br>- MySQL<br>Es un SGBD multihilo y multiusuario utilizado en la gran parte de páginas web<br>actuales tanto como en aplicaciones creadas con software libre. Sus ventajas son:<br>Facilidad de uso y gran rendimiento<br>Facilidad para instalar y configurar<br>Soporte multiplataforma<br>Soporte SSL<br>Cómo desventaja tiene la escalabilidad, debido a que no trabaja de manera<br>eficiente con bases de datos muy grandes que superan un determinado<br>tamaño<br>-MariaDB<br>Es una derivación de MySQL que cuenta con la mayoría de características de este e<br>incluye varias extensiones. Tiene la ventaja de que es compatible con MySQL. Sus<br>principales características son:<br>-aumento de motores de almacenamiento<br>Gran escalabilidad<br>Seguridad y rapidez en transacciones<br>Extensiones y nuevas características relacionadas con su aplicación para<br>bases de datos NoSQL<br>-SQLite<br>Es una biblioteca escrita en C que implementa un SGBD y que permite<br>transacciones sin necesidad de un servidor ni configuraciones. Es una biblioteca<br>utilizada en multitud de aplicaciones actuales debido a que es open source<br>y las consultas son muy eficientes, sus principales características son:<br>Su tamaño, al ser una biblioteca es menor que cualquier SGBD<br>Reúne ACID<br>Portabilidad y rendimiento<br>Como principal desventaja es su escalabilidad ya que no soporta bases de datos<br>que sean muy grandes.<br>-PostgreSQL<br>Este sistema está orientado a objetos y es libre, sus principales características son:<br>Control de concurrencias multiversión (MVCC)<br>Flexibilidad en cuanto a lenguajes de programación<br>Multiplataforma<br>Dispone de una herramienta facil e intuitiva para la administración de las<br>bases de datos<br>Eficiencia y estabilidad<br>Su principal desventaja es la lentitud para la administración de bases de datos<br>pequeñas, ya que está optimizado para gestionar grandes volúmenes de datos.<br>-Microsoft SQL Server<br>Es un sistema gestor de bases de datos basado en el lenguaje Transact-SQL, capaz<br>de poner a disposición grandes cantidades de datos de manera simultánea, sus<br>principales características son:<br>•<br>Soporte exclusivo por parte de Microsoft<br>Escalabilidad, estabilidad y seguridad<br>Posibilidad de cancelar consultas<br>Potente entorno gráfico de administración que permite utilizar comandos DDL<br>y DML<br>Se puede usar en plataformas como Linux o Docker a pesar de ser de<br>Microsoft<br>Su principal desventaja es el precio.<br>-ORACLE<br>Ha sido el sistema gestor por excelencia para el mundo empresarial, por ser<br>considerado como el más completo y robusto destacando por:<br>Soporte de transacciones<br>Estabilidad<br>Escalabilidad<br>Multiplataforma<br>Su principal desventaja es el coste.`,
+                link: "https://www.inesem.es/revistadigital/informatica-y-tics/los-gestores-de-bases-de-datos-mas-usados"
+            },
+            {
+                id: 12,
+                title: "1.8.2 Sistemas gestores no relacionales",
+                category: "fundamentos",
+                text: `1.8.1 Sistemas gestores no relacionales<br>Una base de datos NoSQL es aquella base de datos que no requiere de estructura<br>de datos fijas como tablas, no garantiza completamente las características ACID y<br>escala muy bien horizontalmente, se utilizan en entornos distribuidos que han de<br>estar siempre disponibles y operativos que gestionan los datos. Los principales<br>sistemas gestores no relacionales son:<br>-MongoDB<br>Este SGBD orientado a ficheros almacena la información en estructuras BSON con<br>un esquema dinámico que permite su facilidad de integración. Empresas como<br>Google, Facebook, eBay, Cisco o Adobe utilizan MongoDB como gestor de bases de<br>datos. Las principales características son:<br>Indexación y replicación<br>Balanceo de carga<br>Almacenamiento en ficheros<br>Consultas ad hoc<br>Escalabilidad horizontal<br>Open Source<br>Como desventaja principal es que no es un SGBD adecuado para realizar<br>transacciones complejas<br>-Redis<br>Está basado en el almacenamiento clave-valor. Almacena todo tipo de datos, desde<br>cadenas, hashes, listas, etc. Su principal uso es para el almacenamiento en<br>memoria caché y la administración de sesiones.<br>Sus principales características son:<br>Atomicidad y persistencia<br>Gran velocidad<br>Simplicidad<br>Multiplataforma<br>-Cassandra<br>Utiliza almacenamiento clave-valor. Es un SGBD distribuido y estable. Facebook,<br>Twitter, Instagram, Spotify y Netflix utilizan Cassandra.<br>Dispone de un lenguaje propio para las consultas denominado CQL (Cassandra<br>Query Language)<br>Sus principales características son:<br>Multiplataforma<br>Propio lenguaje de consultas<br>Escalado lineal y horizontal<br>Es un SGBD distribuido<br>Utiliza una arquitectura peer-to-peer`,
+                link: "https://www.inesem.es/revistadigital/informatica-y-tics/los-gestores-de-bases-de-datos-mas-usados"
+            },
+            {
+                id: 13,
+                title: "1.9 Panorama de los modelos de datos",
+                category: "fundamentos",
+                text: `1.9 Panorama de los modelos de datos<br>Actualmente los datos se construyen en 3 fases o niveles progresivos<br>1. Modelo Conceptual de Datos<br>Define que contiene el sistema a nivel general y se enfoca en los conceptos del<br>negocio, sus reglas principales y entidades clave sin entrar en detalles técnicos<br>2. Modelo Lógico de Datos<br>Define cómo se estructuran los datos, independientemente de la tecnología de base<br>de datos, ofrecen más detalles sobre los conceptos de datos y las relaciones de<br>datos complejas que se identificaron en el modelo conceptual.<br>3. Modelo de datos físico<br>Asignan los modelos de datos lógicos a una tecnología específica de SGBD y usan<br>la terminología del software, dando detalles como el tipo de campos de datos<br>representados en el SGBD, relacionales de datos representados en el SGBD,<br>detalles adicionales como el ajuste del rendimiento.<br><br>Tipos de técnicas de modelado de datos<br>1. Modelado de datos jerárquico<br>Es jerárquico, representa las relaciones entre los distintos elementos de datos en<br>formato de árbol. Representan las relaciones de uno a varios, con parents o clases<br>de datos raíz que se asignan a varios children<br>2. Modelado de datos gráfico<br>Representan relaciones de datos que tratan a las entidades por igual. Las entidades<br>pueden vincularse entre sí en relaciones de uno a varios o de varios a varios si<br>ningún concepto de parent o child<br>3. Modelado de datos relacional<br>Se visualiza las clases de datos como tablas. Las diferentes tablas de datos se unen<br>o enlazan entre sí mediante el uso de claves que representan la relación de las<br>entidades del mundo real. Útil para representar la estructura de la base de datos<br>relacional<br>4. Modelado de datos orientado a objetos<br>Usa estructura de datos llamadas objetos para almacenar datos. Estos objetos de<br>datos son abstracciones de software de entidades del mundo real. Este modelado<br>supera muchas limitaciones de los modelos de datos relacionales y son populares<br>en las bases de datos multimedia.<br>5. Modelado de datos dimensional<br>Guarda grandes cantidades de estos para su análisis. Puede usar proyectos de<br>modelado de datos dimensionales para el almacenamiento y la recuperación de<br>datos a alta velocidad desde un almacén de datos. Los modelos dimensionales usan<br>datos duplicados o redundantes y priorizan el rendimiento sobre el uso de menos<br>espacio para el almacenamiento de datos.`,
+                link: "https://aws.amazon.com/es/what-is/data-modeling/"
+            },
+            {
+                id: 14,
+                title: "2.1 Definicion de modelo de datos",
+                category: "modelos",
+                text: `2.1 Definicion de modelo de datos<br>El modelado de datos es el proceso de crear una representación visual de todo un sistema<br>de información o partes de él para comunicar conexiones entre puntos de datos y<br>estructuras.<br>Su objetivo es ilustrar los tipos de datos utilizados y almacenados dentro del sistema y las<br>relaciones entre estos tipos de datos. También describe las formas en que se pueden<br>agrupar y organizar los datos, junto con sus formatos y atributos. Se crean en función de las<br>necesidades empresariales. Sus reglas se definen para que puedan incorporarse al diseño<br>de un nuevo sistema o adaptarse en la iteración de uno existente. El modelado de datos<br>utiliza esquemas estandarizados y técnicas formales, proporcionando una forma común,<br>coherente y predecible de definir y gestionar los recursos de datos en toda una<br>organización.`,
+                link: "https://www.ibm.com/mx-es/think/topics/data-modeling"
+            },
+            {
+                id: 15,
+                title: "2.2 Modelo entidad relación",
+                category: "modelos",
+                text: `2.2 Modelo entidad relación.<br>Los modelos ER se emplean para diseñar bases de datos en múltiples campos, como los<br>sistemas de información empresarial, los procesos de negocio, la investigación, la<br>educación o la ingeniería de software. En concreto:<br>Diseño de bases de datos: los diagramas entidad-relación se emplean para diseñar bases<br>de datos relacionales. En ingeniería de software este suele ser el primer paso para<br>concretar los requisitos de un proyecto de sistemas de información.<br>Depuración de errores de bases de datos: el modelo ER permite analizar bases de datos<br>existentes con el fin de encontrar problemas de lógica o implementación.<br>Sistemas de información empresarial: se recurre a modelos ERD para diseñar bases de<br>datos relacionales para un proceso de negocio que permitan simplificar el proceso y mejorar<br>sus resultados.<br>Reingeniería de procesos de negocio: el modelo entidad relación también contribuye a<br>analizar bases de datos que se emplean para rediseñar y optimizar un procesos de negocio.<br>Investigación: los modelos ER pueden ser útiles para analizar datos estructurados que se<br>emplean en investigaciones.<br>Educación: un diagrama entidad-relación sirve para planificar bases de datos de información<br>con propósitos educativos.<br>El modelo entidad relación es, básicamente, el esquema que se emplea para ilustrar las<br>relaciones que se establecen en una base de datos. Bases de datos que se emplean en<br>empresas y todo tipo de entidades que generan ingentes volúmenes de datos a los que se<br>puede sacar partido, si se sabe cómo.`,
+                link: "https://mexico.unir.net/noticias/ingenieria/modelo-entidad-relacion/"
+            },
+            {
+                id: 16,
+                title: "2.2.1 Entidades, atributos y relaciones.",
+                category: "modelos",
+                text: `2.2.1 Entidades, atributos y relaciones.<br>Entidades: son las personas, objetos o conceptos de los que trata una base de datos. Por<br>ejemplo, en una base de datos de ventas de un negocio, las entidades podrían ser, entre<br>otras, "Cliente", "Producto", "Factura" o "Dirección".<br>Atributos: describen las propiedades que posee cada entidad. En el ejemplo anterior,<br>atributos de la entidad "Cliente" podrían ser "Nombre", "Primer Apellido", "Fecha de<br>nacimiento", etc.<br>Relaciones: sirven para crear vínculos entre parejas de entidades. Siguiendo con el<br>ejemplo, cada "Cliente" está vinculado a una "Dirección", a uno o varios "Productos", etc.<br>El diagrama entidad-relación corresponde a la expresión gráfica del modelo entidad<br>relacion. Para ello, se utilizan símbolos:<br>Rectángulos, para representar las entidades.<br>Óvalos, para los atributos.<br>Diamantes o líneas de conexión para representar las relaciones entre entidades y atributos.<br>Las líneas de conexión suelen tener una apariencia gráfica diferente en función del tipo de<br>relación que exista entre las entidades que conectan (puede ser una línea continua o<br>discontinua, por ejemplo).<br>El modelo entidad relación pretende ser un reflejo de la estructura gramatical y, por ello,<br>utilizan:<br>Sustantivos, comunes o propios, para definir tipos de entidades y entidades.<br>Verbos, para definir tipos de relación.<br>Adjetivos, como atributos de una entidad.<br>Adverbios, como atributos de una relación.`,
+                link: "https://mexico.unir.net/noticias/ingenieria/modelo-entidad-relacion/"
+            },
+            {
+                id: 17,
+                title: "2.2.2 Llaves.",
+                category: "modelos",
+                text: `2.2.2 Llaves.<br>La llave primaria es un atributo o conjunto de atributos que identifica de manera única cada<br>registro en una tabla. Su importancia radica en su capacidad para garantizar que no existan<br>duplicados en la información almacenada. Imagina una tabla que almacena datos de<br>empleados; la llave primaria podría ser el número de identificación del empleado,<br>asegurando que cada número sea único y, por ende, represente a un empleado específico.<br>Al definir una llave primaria, se establece una restricción única, lo que impide la inserción de<br>registros duplicados. Esto no solo mejora la calidad de los datos, sino que también facilita la<br>búsqueda y recuperación de información de manera eficiente. Además, la llave primaria es<br>crucial para establecer relaciones con otras tablas mediante el uso de llaves foráneas.<br>La llave foránea, por otro lado, crea vínculos entre tablas relacionadas en una base de<br>datos. Esta llave foránea suele ser un atributo en una tabla que coincide con la llave<br>primaria de otra tabla. Este enlace establece una relación referencial, lo que permite que la<br>información se distribuya y relacione de manera coherente.<br>Para comprender mejor la función de la llave foránea, consideremos dos tablas: <<Clientes> >><br>y <<Órdenes». En la tabla <<Órdenes , la llave primaria podría ser el número de orden,<br>mientras que en la tabla Clientes», el número de cliente podría ser la llave primaria. Al<br>introducir una llave foránea en la tabla <<Órdenes>> que hace referencia al número de cliente<br>en la tabla <<Clientes», se establece una conexión significativa entre ambas tablas. Esta<br>relación facilita consultas que implican la combinación de datos de ambas tablas, brindando<br>información más completa y detallada.`,
+                link: "https://keepcoding.io/blog/llaves-primarias-y-foraneas/"
+            },
+            {
+                id: 18,
+                title: "2.2.3 Cardinalidad de las entidades en una relación.",
+                category: "modelos",
+                text: `2.2.3 Cardinalidad de las entidades en una relación.<br>Las relaciones en bases de datos permiten relacionar información entre diferentes tablas y<br>garantizar que los datos sean precisos y consistentes.<br>Existen principalmente tres tipos de relaciones:<br>Relación uno a uno: se utiliza cuando una fila en una tabla está relacionada con<br>exactamente una fila en otra tabla. Esta relación se suele utilizar en casos donde una tabla<br>de datos complementaria solo tiene una fila para cada fila en la tabla principal. Por ejemplo,<br>si tenemos una tabla de "Estudiantes" y una tabla de "Direcciones", cada estudiante solo<br>tiene una dirección, lo que significa que la relación entre las dos tablas es de uno a uno.<br>Relación uno a muchos: significa que una fila en una tabla está relacionada con varias filas<br>en otra tabla. Esta relación se utiliza a menudo cuando hay una entidad principal que tiene<br>varios registros relacionados en otra tabla. Por ejemplo, si tenemos una tabla de<br>"Estudiantes" y una tabla de "Asignaturas", cada estudiante puede tener varias asignaturas,<br>lo que significa que la relación entre las dos tablas es de uno a muchos.<br>Relación muchos a muchos: significa que muchas filas en una tabla están relacionadas con<br>muchas filas en otra tabla. Este tipo de relación se utiliza a menudo cuando hay una entidad<br>que tiene una relación compleja con otra entidad. Por ejemplo, si tenemos una tabla de<br>"Estudiantes" y una tabla de "Cursos", donde cada estudiante puede tomar varios cursos y<br>cada curso puede tener varios estudiantes, la relación entre las dos tablas sería muchos a<br>muchos. Para implementar esta relación, se utiliza una tabla intermedia, también conocida<br>como tabla de "unión" o tabla "puente".<br>Cada tipo de relación tiene su propio propósito y ventajas, y es importante elegir la relación<br>correcta para garantizar la eficiencia de la base de datos.`,
+                link: "https://medium.com/@datasciencefem/introducción-a-las-entidades-y-relaciones-conceptos-fundamentales-en-bases-de-datos-822e1862855"
+            },
+            {
+                id: 19,
+                title: "2.2.4 Dependencia de existencia y de identificación.",
+                category: "modelos",
+                text: `2.2.4 Dependencia de existencia y de identificación.<br>Dependencia de existencia<br>Está se da cuando hay una entidad regular relacionada con una entidad débil, de manera<br>que la entidad débil no pueda existir sin la entidad regular.<br>Dependencia de Identificación<br>Tiene que tener un campo clave cada entidad y que este campo clave sea diferente uno del<br>otro y se da cuando la entidad débil necesita el campo cable de la entidad regular.`,
+                link: "https://alevillanew.wordpress.com/2010/09/03/2-2-4-dependencia-de-existencia-y-de-identificacion/"
+            },
+            {
+                id: 20,
+                title: "2.3 Diseño de modelos de datos ER.",
+                category: "modelos",
+                text: `2.3 Diseño de modelos de datos ER.<br>Un diagrama de relación entre entidades (diagrama ER o ERD) es una representación<br>visual de cómo los elementos de una base de datos se relacionan entre sí. Los ERDS son<br>un tipo especializado de diagrama de flujo que transmite los tipos de relación entre<br>diferentes entidades dentro de un sistema. Utilizan un conjunto definido de símbolos,<br>incluyendo rectángulos, óvalos y diamantes, y los vinculan con líneas de conexión.<br>Dentro del modelo relacional de diseño de bases de datos, los ERDs establecen cómo se<br>conectan las entradas en una base de datos. Los ERDs son un modelo de datos conceptual<br>de alto nivel que sienta las bases para un diseño y análisis de bases de datos más<br>avanzados.<br>Además, el modelado de relaciones entre entidades puede ayudar a destilar narrativas e<br>insights de una colección aparentemente dispar de puntos de datos.`,
+                link: "https://www.ibm.com/mx-es/think/topics/entity-relationship-diagram"
+            },
+            {
+                id: 21,
+                title: "2.4 El Diccionario de Datos.",
+                category: "modelos",
+                text: `2.4 El Diccionario de Datos.<br>Es frecuente que cuando hablamos de diccionario de datos su significado se confunda con<br>el de glosario de negocio o con el de vocabulario de datos, sin embargo, son conceptos<br>distintos.<br>Mientras que un glosario de negocio, o vocabulario de datos, trata de dar significado<br>funcional a los indicadores o conceptos que se manejan de forma que se garantice que se<br>hable el mismo lenguaje, abstrayéndose del mundo técnico, tal y como se explica en este<br>artículo, un diccionario de datos trata de documentar los metadatos más ligados a su<br>almacenamiento en la base de datos. Es decir, incluye aspectos técnicos como el tipo de<br>dato, formato, longitud, posibles valores que puede tomar e, incluso, transformaciones<br>sufridas, sin olvidar la definición de cada campo. La documentación de estas<br>transformaciones nos proporcionará automáticamente el linaje del dato, entendido como la<br>trazabilidad a lo largo de su ciclo de vida. Estos metadatos ayudan a los usuarios a<br>entender los datos desde el punto de vista técnico para poder explotarlos adecuadamente.<br>Por este motivo, cada base de datos debería contar con su diccionario de datos asociado.`,
+                link: "https://datos.gob.es/es/blog/que-es-un-diccionario-de-datos-y-por-que-es-importante"
+            }
+        ];
+
+        function renderCubes(items) {
+            const grid = document.getElementById('cubeGrid');
+            grid.innerHTML = '';
+            if(items.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No se encontraron resultados.</p>';
+                return;
+            }
+            items.forEach((item, index) => {
+                const cube = document.createElement('div');
+                cube.className = 'cube';
+                cube.style.animationDelay = `${index * 0.05}s`;
+                const tagClass = item.category === 'fundamentos' ? 'tag-fundamentos' : 'tag-modelos';
+                const tagText = item.category === 'fundamentos' ? 'Fundamentos' : 'Modelos de Datos';
+                cube.innerHTML = `<div class="cube-tag ${tagClass}">${tagText}</div><h3>${item.title}</h3>`;
+                cube.onclick = () => openDetail(item.id);
+                grid.appendChild(cube);
+            });
+        }
+
+        function filterCubes() {
+            const searchText = document.getElementById('searchBar').value.toLowerCase();
+            const category = document.getElementById('filterDropdown').value;
+            const filteredData = data.filter(item => {
+                const matchesSearch = item.title.toLowerCase().includes(searchText) || item.text.toLowerCase().includes(searchText);
+                const matchesCategory = category === 'todos' || item.category === category;
+                return matchesSearch && matchesCategory;
+            });
+            renderCubes(filteredData);
+        }
+
+        function showScreen(screenId) {
+            document.getElementById('screen1').classList.add('hidden');
+            document.getElementById('screen2').classList.add('hidden');
+            document.getElementById('screen3').classList.add('hidden');
+            document.getElementById(screenId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if(screenId === 'screen2') filterCubes();
+        }
+
+        function openDetail(id) {
+            const item = data.find(d => d.id === id);
+            if(item) {
+                document.getElementById('detailTitle').innerText = item.title;
+                document.getElementById('detailText').innerHTML = item.text;
+                
+                const linkElement = document.getElementById('detailLink');
+                if(item.link !== "#") {
+                    linkElement.href = item.link;
+                    linkElement.style.display = "inline-block";
+                } else {
+                    linkElement.style.display = "none";
+                }
+                showScreen('screen3');
+            }
+        }
+        renderCubes(data);
+    </script>
+</body>
+</html>
